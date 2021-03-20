@@ -1,5 +1,6 @@
 # start-jarjargone
 Web tool for medical definition and reliability scoring - Find out in real-time, all in one window.
+Tired of medical jargon all over the place? Well, jargon is now jargone.
 
 ## Description
 ### Problem space: 
