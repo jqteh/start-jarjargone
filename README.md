@@ -18,4 +18,14 @@ To test out our project, please follow the below instructions:
 3. Navigate to project folder and select 'extension' directory
 
 ### BACKEND 
-Include libraries in requirements.txt on new line
+1. Follow instructions at https://flask.palletsprojects.com/en/1.1.x/installation/ for setting up virtual environment for Windows or Mac
+2. Install requirements
+```
+$ pip install -r requirements.txt
+```
+3. Run flask app locally
+```
+$ export FLASK_APP=py-script/main.py
+$ flask run
+```
+
