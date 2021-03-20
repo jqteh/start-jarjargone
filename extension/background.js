@@ -1,16 +1,17 @@
-// const CONTEXT_MENU_ID = "MY_CONTEXT_MENU";
-// function getword(info,tab) {
-//   if (info.menuItemId !== CONTEXT_MENU_ID) {
-//     return;
-//   }
-//   console.log("Word " + info.selectionText + " was clicked.");
-//   chrome.tabs.create({  
-//     url: "http://www.google.com/search?q=" + info.selectionText
-//   });
-// }
-// chrome.contextMenus.create({
-//   title: "Search: %s", 
-//   contexts:["selection"], 
-//   id: CONTEXT_MENU_ID
-// });
-// chrome.contextMenus.onClicked.addListener(getword)
+// Called when the user clicks on the browser action.
+chrome.browserAction.onClicked.addListener(function(tab) {
+    // Send a message to the active tab
+    chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+      var activeTab = tabs[0];
+      chrome.tabs.sendMessage(activeTab.id, {"message": "clicked_browser_action"});
+    });
+  });
+  
+  // This block is new!
+  chrome.runtime.onMessage.addListener(
+    function(request, sender, sendResponse) {
+      if( request.message === "open_new_tab" ) {
+        chrome.tabs.create({"url": request.url});
+      }
+    }
+  );

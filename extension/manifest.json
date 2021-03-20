@@ -10,18 +10,17 @@
     "permissions": [
         "clipboardWrite",
         "storage",
-        "contextMenus",
-        "activeTab"
+        "contextMenus"
     ],
     "content_scripts": [
         {
             "matches": ["http://*/*", "https://*/*", "ftp://*/*", "file:///*"],
-            "js":["textselect.js"],
-            "all_frames": true
+            "js":["jquery-3.6.0.js","content.js"],
+            "css":["content.css"],
+            "all_frames":true
         }
     ],
     "background": {
-        "page": "background.html",
-        "persistent": true
+        "scripts": ["background.js"]
     }
 }
