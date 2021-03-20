@@ -53,6 +53,8 @@ function mouseUp(e) {
 
     if (selection.length) {
         console.log(selection);
+
+        //Mirror selection - no processing
         var top = e.clientY + window.scrollY;
         var left = e.clientX + window.scrollX;
         renderBubble(left, top, selection);
