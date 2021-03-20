@@ -7,7 +7,11 @@ document.addEventListener('mouseup', function (e) {
 
     if (selection.length) {
         console.log(selection);
-        renderBubble(e.clientX, e.clientY, selection);
+
+        var top = e.clientY + window.scrollY;
+        var left = e.clientX + window.scrollX;
+
+        renderBubble(left, top, selection);
     }
 
 }, false)
@@ -17,15 +21,18 @@ document.addEventListener('mousedown', function (e) {
     bubbleDOM.style.visibility = 'hidden';
 }, false);
 
-var viewportOffset = el.getBoundingClientRect();
-// these are relative to the viewport, i.e. the window
-var top = viewportOffset.top;
-var left = viewportOffset.left;
+
 
 // Move that bubble to the appropriate location.
 function renderBubble(mouseX, mouseY, selection) {
+
+    // var viewportOffset = bubbleDOM.getBoundingClientRect();
+    // // these are relative to the viewport, i.e. the window
+    // var top = viewportOffset.top;
+    // var left = viewportOffset.left;
+
     bubbleDOM.innerHTML = `<h3>Definition</h3><p>${selection}</p>`;
-    bubbleDOM.style.top = mouseY - top + 'px';
-    bubbleDOM.style.left = mouseX - left + 'px';
+    bubbleDOM.style.top = mouseY + 'px';
+    bubbleDOM.style.left = mouseX + 'px';
     bubbleDOM.style.visibility = 'visible';
 }
