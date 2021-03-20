@@ -55,31 +55,29 @@ function mouseUp(e) {
         console.log(selection);
 
         //Mirror selection - no processing
-        var top = e.clientY + window.scrollY;
-        var left = e.clientX + window.scrollX;
-        renderBubble(left, top, selection);
+        // var top = e.clientY + window.scrollY;
+        // var left = e.clientX + window.scrollX;
+        // renderBubble(left, top, selection);
 
         //Post to server
-        // chrome.runtime.sendMessage(
-        //     {
-        //         contentScriptQuery: "postData",
-        //         data: JSON.stringify(selection),
-        //         url: "apiUrl"
-        //     }, function (response) {
-        //         debugger;
-        //         if (response != undefined && response != "") {
-        //             console.log(response)
+        chrome.runtime.sendMessage(
+            {
+                contentScriptQuery: "postData",
+                data: JSON.stringify(selection),
+                url: "http://127.0.0.1:5000/api"
+            }, function (response) {
+                if (response != undefined && response != "") {
+                    console.log(response)
 
-        //             var top = e.clientY + window.scrollY;
-        //             var left = e.clientX + window.scrollX;
+                    var top = e.clientY + window.scrollY;
+                    var left = e.clientX + window.scrollX;
 
-        //             renderBubble(left, top, response);
-        //         } else {
-        //             debugger;
-        //             console.log("problem")
-        //         }
-        //     }
-        // )
+                    renderBubble(left, top, response);
+                } else {
+                    console.log("problem")
+                }
+            }
+        )
 
         // Test API merriam webster medical dictionary
         // chrome.runtime.sendMessage(

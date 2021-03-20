@@ -11,42 +11,45 @@ from nltk.tokenize import word_tokenize
 from gensim.summarization.summarizer import summarize
 
 from keras.models import load_model
-from flask import Flask 
+from flask import Flask, request, jsonify
 
 app = Flask(__name__)
-@app.route("/")
-
+@app.route("/api",methods=['POST'])
 
 def main():
-
-    INPUT_1 = '{"text": "   Pneumonia.  ! Pneumonia "}'
-    INPUT_2 = '{"text": "Subject was administered 100mg remdesivir intravenously over a period of 120 min"}'
+    # INPUT_1 = '{"text": "   Pneumonia.  ! Pneumonia "}'
+    # INPUT_2 = '{"text": "Subject was administered 100mg remdesivir intravenously over a period of 120 min"}'
 
     LANG = 'english'
     WIKI_LANG = 'en'
-
     MODEL_PATH = './model/'
-
     wikipedia.set_lang(WIKI_LANG) 
 
-    data = json.loads(INPUT_1)
-    text = data.get('text')
+    if request.method == "POST":
+        if not request.is_json:
+            return {'message':'format not JSON'}
+        if request.is_json:    
+            data = request.get_json()
+            # return {'message':'successfully received string: ' + data} 
 
-    clear_text = hf.preproc_text(text)
+            # text = data.get('text')
 
-    if hf.is_text_definition(clear_text, LANG):
-        try:  
-            text = summarize(wikipedia.summary(clear_text))
-            return text
+            clear_text = hf.preproc_text(data)
+            # return {'message':clear_text} # this line works
+
+        if hf.is_text_definition(clear_text, LANG):
+            try:  
+                text = summarize(wikipedia.summary(clear_text))
+                return text
              
-        except:
-            print('Cant find the definition')
+            except:
+                print('Cant find the definition')
         
-    else:
-        pass
-        model_cwi = load_model(MODEL_PATH)
-        simple_text = hf.simplify_text(clear_text, LANG)
-        return simple_text
+        else:
+            pass
+            model_cwi = load_model(MODEL_PATH)
+            simple_text = hf.simplify_text(clear_text, LANG)
+            return simple_text
 
 
 if __name__ == "__main__":
