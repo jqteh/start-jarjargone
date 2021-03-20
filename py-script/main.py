@@ -39,6 +39,7 @@ if hf.is_text_definition(clear_text, LANG):
         print('Cant find the definition')
     
 else:
-    simple_text = hf.simplify_text(clear_text, LANG)
+    pass
+    # simple_text = hf.simplify_text(clear_text, LANG)
     
-    print(simple_text)
+    # print(simple_text)
