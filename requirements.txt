@@ -4,3 +4,7 @@ wikipedia
 gensim
 langdetect
 torch
+transformers
+wordfreq
+gensim
+keras
