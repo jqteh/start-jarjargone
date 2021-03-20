@@ -1,4 +1,4 @@
-import help_foos as hf
+#import help_foos as hf
 
 import json
 import wikipedia
