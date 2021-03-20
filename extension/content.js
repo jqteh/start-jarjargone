@@ -111,7 +111,11 @@ function mouseDown(e) {
 // Move that bubble to the appropriate location.
 function renderBubble(mouseX, mouseY, selection) {
 
-    bubbleDOM.innerHTML = `<h3>Definition</h3><p>${selection}</p>`;
+    bubbleDOM.innerHTML = `
+    <h3>Definition</h3>
+    <p>${selection}</p>
+    <p><strong>Jar Jar Score:</strong> 70%</p>
+    `;
     bubbleDOM.style.top = mouseY + 'px';
     bubbleDOM.style.left = mouseX + 'px';
     bubbleDOM.style.visibility = 'visible';
