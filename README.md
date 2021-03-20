@@ -7,7 +7,10 @@ Tired of medical jargon all over the place? Well, jargon is now jargone.
 Helping patients or the layperson to quickly access the definition of medical terminology without leaving the page, just with a simple selection of the word, and handling misinformation by providing reliability scores.
 
 ### Impact: 
-By having the tool as a browser extension, we can eliminate the steps of uploading the document onto a separate app - this also means that the patient does not need to leave their screen when reading quickly across sources. With further design this could improve accessibility,  ease to use, and user-friendliness to all groups of people (i.e. our design is much easier to explain to less tech-savvy people). The SumMed.org platform also does not process URLs which are not open-access (e.g. institutional log in methods, account based html document). Our tool also aims to handle misinformation and improve the decision making processes of patient.
+By having the tool as a browser extension, we can eliminate the steps of uploading the document onto a separate app - this also means that the patient does not need to leave their screen when reading quickly across sources. With further design this could improve accessibility,  ease to use, and user-friendliness to all groups of people (i.e. our design is much easier to explain to less tech-savvy people). The SumMed.org platform also does not process URLs which are not open-access (e.g. institutional log in methods, account based html document). Our tool also aims to handle misinformation and improve the decision making processes for patients by providing suggested reading material from trusted sources.
+
+### Features
+The Python back-end processes JSON data sent from chrome extension and returns the definition of the highlighted phrase, or the reliability of longer blocks of highlighted text using a neural network model.
 
 ### Demo:
 <img src="demo/demo1.png" alt="drawing" width="650"/>
