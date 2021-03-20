@@ -24,6 +24,7 @@ chrome.browserAction.onClicked.addListener(function (tab) {
 
 chrome.runtime.onMessage.addListener(
   function (request, sender, sendResponse) {
+    //handle POST requests to server
     if (request.contentScriptQuery === "postData") {
       fetch(request.url, {
         method: 'POST',
@@ -35,6 +36,15 @@ chrome.runtime.onMessage.addListener(
       })
         .then(response => response.json())
         .then(response => sendResponse(response))
+        .catch(error => console.log('Error:', error));
+      return true;
+    }
+
+    //handle GET requests from server
+    if (request.contentScriptQuery === "getData") {
+      fetch(request.url)
+        .then(response => response.json())
+        .then(response => sendResponse(response[0]["shortdef"]))
         .catch(error => console.log('Error:', error));
       return true;
     }

@@ -33,13 +33,35 @@ function mouseUp(e) {
     if (selection.length) {
         console.log(selection);
 
+        //Post to server
+        // chrome.runtime.sendMessage(
+        //     {
+        //         contentScriptQuery: "postData",
+        //         data: JSON.stringify(selection),
+        //         url: "apiUrl"
+        //     }, function (response) {
+        //         debugger;
+        //         if (response != undefined && response != "") {
+        //             console.log(response)
+             
+        //             var top = e.clientY + window.scrollY;
+        //             var left = e.clientX + window.scrollX;
+            
+        //             renderBubble(left, top, response);
+        //         } else {
+        //             debugger;
+        //             console.log("problem")
+        //         }
+        //     }
+        // )
+
+        // Test API merriam webster medical dictionary
         chrome.runtime.sendMessage(
             {
-                contentScriptQuery: "postData",
+                contentScriptQuery: "getData",
                 data: JSON.stringify(selection),
-                url: "apiUrl"
+                url: `https://www.dictionaryapi.com/api/v3/references/medical/json/${selection}?key=hidden`
             }, function (response) {
-                debugger;
                 if (response != undefined && response != "") {
                     console.log(response)
              
@@ -53,6 +75,7 @@ function mouseUp(e) {
                 }
             }
         )
+
     }
 }
 
