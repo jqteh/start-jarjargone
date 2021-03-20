@@ -4,8 +4,8 @@ import nltk
 from nltk.corpus import stopwords
 import langdetect 
 
-from azure.ai.textanalytics import TextAnalyticsClient
-from azure.identity import DefaultAzureCredential
+# from azure.ai.textanalytics import TextAnalyticsClient
+# from azure.identity import DefaultAzureCredential
 
 import torch
 from transformers import BertTokenizer, BertModel, BertForMaskedLM
@@ -179,7 +179,6 @@ def complete_missing_word(pred_binary, index_list, len_list):
     
     
     
-    
 def get_bert_candidates(input_text, list_cwi_predictions, numb_predictions_displayed = 10):
   list_candidates_bert = []
   for word,pred  in zip(input_text.split(), list_cwi_predictions):
@@ -199,6 +198,7 @@ def get_bert_candidates(input_text, list_cwi_predictions, numb_predictions_displ
       predicted_ids = torch.argsort(predictions, descending=True)[:numb_predictions_displayed]
       predicted_tokens = tokenizer.convert_ids_to_tokens(list(predicted_ids))
       list_candidates_bert.append((word, predicted_tokens))
+
   return list_candidates_bert
     
         

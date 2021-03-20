@@ -2,7 +2,7 @@ import json
 
 import wikipedia
 
-import help_foo as hf
+import help_foos as hf
 
 import nltk
 #nltk.download('stopwords')
@@ -40,6 +40,6 @@ if hf.is_text_definition(clear_text, LANG):
     
 else:
     pass
-    # simple_text = hf.simplify_text(clear_text, LANG)
+    simple_text = hf.simplify_text(clear_text, LANG)
     
-    # print(simple_text)
+    print(simple_text)
