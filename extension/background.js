@@ -4,7 +4,7 @@ var toggle = false;
 chrome.browserAction.onClicked.addListener(function (tab) {
 
   toggle = !toggle;
-  
+
   if (toggle) {
     chrome.browserAction.setIcon({ path: "icon.png" });
     chrome.browserAction.setBadgeText({ text: 'ON' });
@@ -24,8 +24,19 @@ chrome.browserAction.onClicked.addListener(function (tab) {
 
 chrome.runtime.onMessage.addListener(
   function (request, sender, sendResponse) {
-    if (request.message === "open_new_tab") {
-      chrome.tabs.create({ "url": request.url });
+    if (request.contentScriptQuery === "postData") {
+      fetch(request.url, {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json, application/xml, text/plain, text/html, *.*',
+          'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8'
+        },
+        body: request.data
+      })
+        .then(response => response.json())
+        .then(response => sendResponse(response))
+        .catch(error => console.log('Error:', error));
+      return true;
     }
   }
 );
