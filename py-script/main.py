@@ -12,34 +12,44 @@ from nltk.tokenize import word_tokenize
 
 from gensim.summarization.summarizer import summarize
 
+from keras.models import load_model
 
-INPUT_1 = '{"text": "   Pneumonia.  ! Pneumonia "}'
-INPUT_2 = '{"text": "Subject was administered 100mg remdesivir intravenously over a period of 120 min"}'
+from flask import Flask 
 
+app = Flask(__name__)
+@app.route("/")
 
-LANG = 'english'
-WIKI_LANG = 'en'
+def main():
 
-wikipedia.set_lang(WIKI_LANG) 
+    INPUT_1 = '{"text": "   Pneumonia.  ! Pneumonia "}'
+    INPUT_2 = '{"text": "Subject was administered 100mg remdesivir intravenously over a period of 120 min"}'
 
-data = json.loads(INPUT_2)
+    LANG = 'english'
+    WIKI_LANG = 'en'
 
-text = data.get('text')
+    MODEL_PATH = './model/'
 
-clear_text = hf.preproc_text(text)
+    wikipedia.set_lang(WIKI_LANG) 
 
+    data = json.loads(INPUT_2)
+    text = data.get('text')
 
-if hf.is_text_definition(clear_text, LANG):
-    try:
-        wiki = wikipedia.summary(clear_text) #, sentences=15
-    
-        print(summarize(wiki))
+    clear_text = hf.preproc_text(text)
+
+    if hf.is_text_definition(clear_text, LANG):
+        try:  
+            print(summarize(wikipedia.summary(clear_text)))
+            
+        except:
+            print('Cant find the definition')
         
-    except:
-        print('Cant find the definition')
-    
-else:
-    pass
-    simple_text = hf.simplify_text(clear_text, LANG)
-    
-    print(simple_text)
+    else:
+        pass
+
+        model_cwi = load_model(MODEL_PATH)
+        simple_text = hf.simplify_text(clear_text, LANG)
+        print(simple_text)
+
+
+if __name__ == "__main__":
+    app.run()

@@ -8,3 +8,4 @@ transformers
 wordfreq
 gensim
 keras
+tensorflow
