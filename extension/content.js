@@ -22,17 +22,19 @@ document.addEventListener('mousedown', function (e) {
 }, false);
 
 
-
 // Move that bubble to the appropriate location.
 function renderBubble(mouseX, mouseY, selection) {
-
-    // var viewportOffset = bubbleDOM.getBoundingClientRect();
-    // // these are relative to the viewport, i.e. the window
-    // var top = viewportOffset.top;
-    // var left = viewportOffset.left;
 
     bubbleDOM.innerHTML = `<h3>Definition</h3><p>${selection}</p>`;
     bubbleDOM.style.top = mouseY + 'px';
     bubbleDOM.style.left = mouseX + 'px';
     bubbleDOM.style.visibility = 'visible';
 }
+
+// Receive instructions from background.js (extension button)
+chrome.extension.onMessage.addListener(function(msg, sender, sendResponse) {
+
+    if (msg.action == 'say_logged') {
+      alert("Message recieved!");
+    }
+  });
