@@ -10,7 +10,9 @@ import langdetect
 import torch
 from transformers import BertTokenizer, BertModel, BertForMaskedLM
 
-
+from gensim.models.doc2vec import Doc2Vec
+from gensim.models.doc2vec import Doc2Vec, TaggedDocument
+from nltk.tokenize import word_tokenize
 
 def preproc_text(input_text):
     """
@@ -50,7 +52,6 @@ def is_text_definition(input_text, LANG):
     text_to_check = input_text.split(" ")
     
     stopwoprds = stopwords.words(LANG)
-    
     
     if len(text_to_check) <= 2:
         return True
@@ -123,7 +124,7 @@ def simplify_text(input_text, LANG):
     
 
 
-def build_vocabulary(sentences, embedding_model, dimension):
+# def build_vocabulary(sentences, embedding_model, dimension):
     all_words = [tpl[0] for sentence in sentences for tpl in sentence['seq']] + list(wordlist_lowercased)
     print('# Words : {}'.format(len(all_words)))
     counter = Counter(all_words)
@@ -202,3 +203,49 @@ def get_bert_candidates(input_text, list_cwi_predictions, numb_predictions_displ
   return list_candidates_bert
     
         
+def get_doc2vec_from_text(input_text):
+  model= Doc2Vec.load("d2v.model")
+  test_data = word_tokenize(test.lower())
+  vects = model.infer_vector(test_data).reshape(1,-1)
+
+  return vects
+
+def prepare_sample_dataset()
+
+  df = pd.read_csv('df_with_vectors.csv', index_col=0)    
+
+  sample = df.vectors.to_list()
+  sample = [x.replace('[ ', '')  for x in sample]
+  sample = [x.replace('   ]', '')  for x in sample]
+  sample = [x.replace('  ]', '')  for x in sample]
+  sample = [x.replace(' ]', '')  for x in sample]
+  sample = [x.replace('[', '')  for x in sample]
+  sample = [x.replace(']', '')  for x in sample]
+  sample = [x.replace('   ', ' ')  for x in sample]
+  sample = [x.replace('   ', ' ')  for x in sample]
+  sample = [x.replace('  ', ' ')  for x in sample]
+  sample = [x.split(' ') for x in sample]
+
+  sample1 = []
+  for l in sample:
+      if len(l)==20:
+          sample1.append(l)
+       
+  sample = [[float(e) for e in s_list] for s_list in sample1]
+  sample = np.array(sample)
+
+  return sample
+
+
+def find_most_similar_article(sample_dataset, vects):
+  NDIM = 3 # number of dimensions
+
+  # read points into array
+  a = sample_dataset
+
+  point = vects
+
+  d = ((a-point)**2).sum(axis=1)  # compute distances
+  ndx = d.argsort() # indirect sort 
+
+  res = df.iloc[[int(ndx[:1])]]

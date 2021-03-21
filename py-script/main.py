@@ -1,5 +1,5 @@
 import sys
-sys.path.append(".py-script/help_foos.py")
+# sys.path.append(".py-script/help_foos.py")
 import help_foos as hf
 
 import json
@@ -14,7 +14,7 @@ from keras.models import load_model
 from flask import Flask, request, jsonify
 
 app = Flask(__name__)
-@app.route("/api",methods=['POST'])
+@app.route("/")
 
 def main():
     # INPUT_1 = '{"text": "   Pneumonia.  ! Pneumonia "}'
@@ -46,11 +46,13 @@ def main():
                 print('Cant find the definition')
         
         else:
-            pass
-            model_cwi = load_model(MODEL_PATH)
-            simple_text = hf.simplify_text(clear_text, LANG)
-            return simple_text
+            sample_dataset = hf.prepare_sample_dataset()
+            
+            vects = hf.get_doc2vec_from_text(clear_text)
+            
+            result = hf.find_most_similar_article(sample_dataset, vects)
 
+            return result.title
 
 if __name__ == "__main__":
     app.run()
@@ -62,12 +64,12 @@ if __name__ == "__main__":
 # LANG = 'english'
 # WIKI_LANG = 'en'
 
-# MODEL_PATH = './model/'
-
 # wikipedia.set_lang(WIKI_LANG) 
 
 # data = json.loads(INPUT_2)
-# text = data.get('text')
+# # text = data.get('text')
+
+# text = """Medulloblastoma is a type of embryonal tumor — a tumor that starts in the fetal (embryonic) cells in the brain. Based on different types of gene mutations, there are at least four subtypes of medulloblastoma. Though medulloblastoma is not inherited, syndromes such as Gorlin's syndrome or Turcot's syndrome might increase the risk of medulloblastoma."""
 
 # clear_text = hf.preproc_text(text)
 
@@ -79,9 +81,10 @@ if __name__ == "__main__":
 #         print('Cant find the definition')
     
 # else:
-#     pass
-#     #model_cwi = load_model(MODEL_PATH)
-#     # simple_text = hf.simplify_text(clear_text, LANG)
-#     # print(simple_text)
+#     sample_dataset = hf.prepare_sample_dataset()
+    
+#     vects = hf.get_doc2vec_from_text(clear_text)
+    
+#     result = hf.find_most_similar_article(sample_dataset, vects)
 
-
+#     print(result.title)
