@@ -201,3 +201,17 @@ def get_bert_candidates(input_text, list_cwi_predictions, numb_predictions_displ
   return list_candidates_bert
     
         
+def get_doc2vec_from_text(input_text):
+  data = [] 
+
+  # iterate through each sentence in the file 
+  for i in sent_tokenize(input_text): 
+    temp = [] 
+
+    # tokenize the sentence into words 
+    for j in word_tokenize(i): 
+      temp.append(j.lower()) 
+    
+    data.append(temp) 
+    
+  return data
