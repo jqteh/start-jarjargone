@@ -42,3 +42,7 @@ $ export FLASK_APP=py-script/main.py
 $ flask run
 ```
 
+Note: 2 more important requirements are needed to run this extension
+ * Neural network model file (d2v.model) which is too large to be pushed to Github. Please contact the developers directly. The new directory containing the model should be /py-script/model/d2v.model
+
+ * Merriam webster API key to replace keyword 'hidden' in content.js on line 90
