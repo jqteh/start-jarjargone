@@ -1,4 +1,6 @@
 import sys
+import pandas as pd
+import numpy as np
 # sys.path.append(".py-script/help_foos.py")
 import help_foos as hf
 
@@ -37,22 +39,24 @@ def main():
             clear_text = hf.preproc_text(data)
             # return {'message':clear_text} # this line works
 
-        if hf.is_text_definition(clear_text, LANG):
-            try:  
-                text = summarize(wikipedia.summary(clear_text))
-                return text
+            # if hf.is_text_definition(clear_text, LANG):
+        #     try:  
+        #         text = summarize(wikipedia.summary(clear_text))
+                # return {'message':'success'}
              
-            except:
-                print('Cant find the definition')
+        #     except:
+        #         return {'message':'failed'}
         
-        else:
+            
             sample_dataset = hf.prepare_sample_dataset()
             
             vects = hf.get_doc2vec_from_text(clear_text)
             
             result = hf.find_most_similar_article(sample_dataset, vects)
 
-            return result.title
+            return {'message':str(result)}
+                # result
+
 
 if __name__ == "__main__":
     app.run()

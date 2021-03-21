@@ -75,7 +75,7 @@ function mouseUp(e) {
                         var top = e.clientY + window.scrollY;
                         var left = e.clientX + window.scrollX;
 
-                        renderBubble(left, top, response);
+                        renderBubble(left, top, response, "Relevant article");
                     } else {
                         console.log("problem")
                     }
@@ -87,15 +87,16 @@ function mouseUp(e) {
                 {
                     contentScriptQuery: "getData",
                     data: JSON.stringify(selection),
-                    url: `https://www.dictionaryapi.com/api/v3/references/medical/json/${selection}?key=hidden`
+                    url: `https://www.dictionaryapi.com/api/v3/references/medical/json/${selection}?key=096aed10-46a0-4079-b2d4-2fbfec95e4d7`
                 }, function (response) {
                     if (response != undefined && response != "") {
+                     
                         console.log(response)
 
                         var top = e.clientY + window.scrollY;
                         var left = e.clientX + window.scrollX;
 
-                        renderBubble(left, top, response);
+                        renderBubble(left, top, response, "Definition");
                     } else {
                         console.log("problem")
                     }
@@ -111,12 +112,11 @@ function mouseDown(e) {
 
 
 // Move that bubble to the appropriate location.
-function renderBubble(mouseX, mouseY, selection) {
+function renderBubble(mouseX, mouseY, response, title) {
 
     bubbleDOM.innerHTML = `
-    <h3>Definition</h3>
-    <p>${selection}</p>
-    <p><strong>Jar Jar Score:</strong> 70%</p>
+    <h3>${title}</h3>
+    <p>${response}</p>
     `;
     bubbleDOM.style.top = mouseY + 'px';
     bubbleDOM.style.left = mouseX + 'px';

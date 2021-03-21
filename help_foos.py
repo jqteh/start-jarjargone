@@ -1,5 +1,6 @@
 import re 
-
+import pandas as pd
+import numpy as np
 import nltk
 from nltk.corpus import stopwords
 import langdetect 
@@ -204,8 +205,8 @@ def get_bert_candidates(input_text, list_cwi_predictions, numb_predictions_displ
     
         
 def get_doc2vec_from_text(input_text):
-  model= Doc2Vec.load("d2v.model")
-  test_data = word_tokenize(test.lower())
+  model= Doc2Vec.load("./py-script/model/d2v.model")
+  test_data = word_tokenize(input_text.lower())
   vects = model.infer_vector(test_data).reshape(1,-1)
 
   return vects
@@ -238,6 +239,7 @@ def prepare_sample_dataset():
 
 
 def find_most_similar_article(sample_dataset, vects):
+  df = pd.read_csv('df_with_vectors.csv', index_col=0)  
   NDIM = 3 # number of dimensions
 
   # read points into array
@@ -249,3 +251,5 @@ def find_most_similar_article(sample_dataset, vects):
   ndx = d.argsort() # indirect sort 
 
   res = df.iloc[[int(ndx[:1])]]
+
+  return res['title'].values[0]

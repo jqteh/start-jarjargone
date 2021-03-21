@@ -37,7 +37,7 @@ chrome.runtime.onMessage.addListener(
         body: request.data
       })
         .then(response => response.json())
-        .then(response => sendResponse(response))
+        .then(response => sendResponse(response.message))
         .catch(error => console.log('Error:', error));
       return true;
     }
