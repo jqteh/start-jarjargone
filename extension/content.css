@@ -1,9 +1,13 @@
 .selection_bubble {
     visibility: hidden;
     position: absolute;
+    font-family: "roboto";
     top: 0;
     left: 0;
-    padding:5px;
+    padding:8px;
+    max-width: 40%;
+    border-radius: 7px;
+    box-shadow: 5px 5px #40394a;
     /* background:-webkit-gradient(linear, left top, left bottom, from(#2e88c4), to(#075698)); */
-    background-color:blanchedalmond;
+    background-color: #f8f1f1;
   }

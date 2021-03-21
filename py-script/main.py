@@ -11,8 +11,9 @@ from nltk.tokenize import word_tokenize
 from gensim.summarization.summarizer import summarize
 
 from keras.models import load_model
-from flask import Flask 
+from flask import Flask, request, jsonify
 
+<<<<<<< HEAD
 # app = Flask(__name__)
 # @app.route("/")
 
@@ -48,6 +49,45 @@ from flask import Flask
         
 #         vec = hf.get
 #         return vec
+=======
+app = Flask(__name__)
+@app.route("/api",methods=['POST'])
+
+def main():
+    # INPUT_1 = '{"text": "   Pneumonia.  ! Pneumonia "}'
+    # INPUT_2 = '{"text": "Subject was administered 100mg remdesivir intravenously over a period of 120 min"}'
+
+    LANG = 'english'
+    WIKI_LANG = 'en'
+    MODEL_PATH = './model/'
+    wikipedia.set_lang(WIKI_LANG) 
+
+    if request.method == "POST":
+        if not request.is_json:
+            return {'message':'format not JSON'}
+        if request.is_json:    
+            data = request.get_json()
+            # return {'message':'successfully received string: ' + data} 
+
+            # text = data.get('text')
+
+            clear_text = hf.preproc_text(data)
+            # return {'message':clear_text} # this line works
+
+        if hf.is_text_definition(clear_text, LANG):
+            try:  
+                text = summarize(wikipedia.summary(clear_text))
+                return text
+             
+            except:
+                print('Cant find the definition')
+        
+        else:
+            pass
+            model_cwi = load_model(MODEL_PATH)
+            simple_text = hf.simplify_text(clear_text, LANG)
+            return simple_text
+>>>>>>> 9228df256699c84886291bf7fc842f4055fe8f6d
 
 
 # if __name__ == "__main__":
