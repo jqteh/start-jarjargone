@@ -210,7 +210,7 @@ def get_doc2vec_from_text(input_text):
 
   return vects
 
-def prepare_sample_dataset()
+def prepare_sample_dataset():
 
   df = pd.read_csv('df_with_vectors.csv', index_col=0)    
 
