@@ -10,7 +10,9 @@ import langdetect
 import torch
 from transformers import BertTokenizer, BertModel, BertForMaskedLM
 
-
+from gensim.models.doc2vec import Doc2Vec
+from gensim.models.doc2vec import Doc2Vec, TaggedDocument
+from nltk.tokenize import word_tokenize
 
 def preproc_text(input_text):
     """
@@ -202,17 +204,48 @@ def get_bert_candidates(input_text, list_cwi_predictions, numb_predictions_displ
     
         
 def get_doc2vec_from_text(input_text):
+  model= Doc2Vec.load("d2v.model")
+  test_data = word_tokenize(test.lower())
+  vects = model.infer_vector(test_data).reshape(1,-1)
 
-    data = [] 
-  
-    # iterate through each sentence in the file 
-    for i in sent_tokenize(input_text): 
-        temp = [] 
-        
-        # tokenize the sentence into words 
-        for j in word_tokenize(i): 
-            temp.append(j.lower()) 
-    
-        data.append(temp) 
+  return vects
 
-  return data
+def prepare_sample_dataset()
+
+  df = pd.read_csv('df_with_vectors.csv', index_col=0)    
+
+  sample = df.vectors.to_list()
+  sample = [x.replace('[ ', '')  for x in sample]
+  sample = [x.replace('   ]', '')  for x in sample]
+  sample = [x.replace('  ]', '')  for x in sample]
+  sample = [x.replace(' ]', '')  for x in sample]
+  sample = [x.replace('[', '')  for x in sample]
+  sample = [x.replace(']', '')  for x in sample]
+  sample = [x.replace('   ', ' ')  for x in sample]
+  sample = [x.replace('   ', ' ')  for x in sample]
+  sample = [x.replace('  ', ' ')  for x in sample]
+  sample = [x.split(' ') for x in sample]
+
+  sample1 = []
+  for l in sample:
+      if len(l)==20:
+          sample1.append(l)
+       
+  sample = [[float(e) for e in s_list] for s_list in sample1]
+  sample = np.array(sample)
+
+  return sample
+
+
+def find_most_similar_article(sample_dataset, vects):
+  NDIM = 3 # number of dimensions
+
+  # read points into array
+  a = sample_dataset
+
+  point = vects
+
+  d = ((a-point)**2).sum(axis=1)  # compute distances
+  ndx = d.argsort() # indirect sort 
+
+  res = df.iloc[[int(ndx[:1])]]

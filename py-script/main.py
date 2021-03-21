@@ -13,45 +13,8 @@ from gensim.summarization.summarizer import summarize
 from keras.models import load_model
 from flask import Flask, request, jsonify
 
-<<<<<<< HEAD
-# app = Flask(__name__)
-# @app.route("/")
-
-# def main():
-
-#     INPUT_1 = '{"text": "   Pneumonia.  ! Pneumonia "}'
-#     INPUT_2 = '{"text": "Subject was administered 100mg remdesivir intravenously over a period of 120 min"}'
-
-#     LANG = 'english'
-#     WIKI_LANG = 'en'
-
-#     MODEL_PATH = './model/'
-
-#     wikipedia.set_lang(WIKI_LANG) 
-
-#     data = json.loads(INPUT_1)
-#     text = data.get('text')
-
-#     clear_text = hf.preproc_text(text)
-
-#     if hf.is_text_definition(clear_text, LANG):
-#         try:  
-#             text = summarize(wikipedia.summary(clear_text))
-#             return text
-             
-#         except:
-#             print('Cant find the definition')
-        
-#     else:
-#         pass
-#         # model_cwi = load_model(MODEL_PATH)
-#         # simple_text = hf.simplify_text(clear_text, LANG)
-        
-#         vec = hf.get
-#         return vec
-=======
 app = Flask(__name__)
-@app.route("/api",methods=['POST'])
+@app.route("/")
 
 def main():
     # INPUT_1 = '{"text": "   Pneumonia.  ! Pneumonia "}'
@@ -83,44 +46,45 @@ def main():
                 print('Cant find the definition')
         
         else:
-            pass
-            model_cwi = load_model(MODEL_PATH)
-            simple_text = hf.simplify_text(clear_text, LANG)
-            return simple_text
->>>>>>> 9228df256699c84886291bf7fc842f4055fe8f6d
+            sample_dataset = hf.prepare_sample_dataset()
+            
+            vects = hf.get_doc2vec_from_text(clear_text)
+            
+            result = hf.find_most_similar_article(sample_dataset, vects)
+
+            return result.title
+
+if __name__ == "__main__":
+    app.run()
 
 
-# if __name__ == "__main__":
-#     app.run()
+# INPUT_1 = '{"text": "   Pneumonia.  ! Pneumonia "}'
+# INPUT_2 = '{"text": "Subject was administered 100mg remdesivir intravenously over a period of 120 min"}'
 
+# LANG = 'english'
+# WIKI_LANG = 'en'
 
-INPUT_1 = '{"text": "   Pneumonia.  ! Pneumonia "}'
-INPUT_2 = '{"text": "Subject was administered 100mg remdesivir intravenously over a period of 120 min"}'
+# wikipedia.set_lang(WIKI_LANG) 
 
-LANG = 'english'
-WIKI_LANG = 'en'
+# data = json.loads(INPUT_2)
+# # text = data.get('text')
 
-MODEL_PATH = './model/'
+# text = """Medulloblastoma is a type of embryonal tumor — a tumor that starts in the fetal (embryonic) cells in the brain. Based on different types of gene mutations, there are at least four subtypes of medulloblastoma. Though medulloblastoma is not inherited, syndromes such as Gorlin's syndrome or Turcot's syndrome might increase the risk of medulloblastoma."""
 
-wikipedia.set_lang(WIKI_LANG) 
+# clear_text = hf.preproc_text(text)
 
-data = json.loads(INPUT_2)
-text = data.get('text')
-
-clear_text = hf.preproc_text(text)
-
-if hf.is_text_definition(clear_text, LANG):
-    try:  
-        print(summarize(wikipedia.summary(clear_text)))
+# if hf.is_text_definition(clear_text, LANG):
+#     try:  
+#         print(summarize(wikipedia.summary(clear_text)))
         
-    except:
-        print('Cant find the definition')
+#     except:
+#         print('Cant find the definition')
     
-else:
+# else:
+#     sample_dataset = hf.prepare_sample_dataset()
     
-    # model_cwi = load_model(MODEL_PATH)
-    # simple_text = hf.simplify_text(clear_text, LANG)
-    # print(simple_text)
+#     vects = hf.get_doc2vec_from_text(clear_text)
+    
+#     result = hf.find_most_similar_article(sample_dataset, vects)
 
-    vects = hf.get_doc2vec_from_text(clear_text)
-
+#     print(result.title)
