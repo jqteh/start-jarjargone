@@ -87,7 +87,7 @@ function mouseUp(e) {
                 {
                     contentScriptQuery: "getData",
                     data: JSON.stringify(selection),
-                    url: `https://www.dictionaryapi.com/api/v3/references/medical/json/${selection}?key=096aed10-46a0-4079-b2d4-2fbfec95e4d7`
+                    url: `https://www.dictionaryapi.com/api/v3/references/medical/json/${selection}?key=hidden`
                 }, function (response) {
                     if (response != undefined && response != "") {
                      
