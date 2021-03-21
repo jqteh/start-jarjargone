@@ -204,7 +204,7 @@ def get_bert_candidates(input_text, list_cwi_predictions, numb_predictions_displ
     
         
 def get_doc2vec_from_text(input_text):
-  model= Doc2Vec.load("d2v.model")
+  model= Doc2Vec.load("./model/d2v.model")
   test_data = word_tokenize(test.lower())
   vects = model.infer_vector(test_data).reshape(1,-1)
 
