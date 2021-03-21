@@ -14,7 +14,7 @@ from keras.models import load_model
 from flask import Flask, request, jsonify
 
 app = Flask(__name__)
-@app.route("/")
+@app.route("/api",methods=['POST'])
 
 def main():
     # INPUT_1 = '{"text": "   Pneumonia.  ! Pneumonia "}'
