@@ -13,7 +13,13 @@ By having the tool as a browser extension, we can eliminate the steps of uploadi
 The Python back-end processes JSON data sent from chrome extension and returns the definition of the highlighted phrase, or the reliability of longer blocks of highlighted text using a neural network model.
 
 ### Demo:
-<img src="demo/demo1.png" alt="drawing" width="650"/>
+<img src="demo/demo1b.png" alt="drawing" width="650"/>
+<br/>
+Definition
+<br/>
+<img src="demo/demo2.png" alt="drawing" width="650"/>
+<br/>
+Article suggestion (to be improved)
 
 ---
 **Status: under development** 
